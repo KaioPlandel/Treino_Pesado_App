@@ -1,5 +1,6 @@
 package com.example.treinopesado
 
+import android.content.res.Resources.Theme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,14 +29,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
+import com.example.treinopesado.navigation.NavGraphMenu
 import com.example.treinopesado.screen.home.HomeScreen
+import com.example.treinopesado.screen.home.HomeViewModel
 import com.example.treinopesado.ui.theme.TreinoPesadoTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController = rememberNavController()
+            val viewModel = viewModel<HomeViewModel>()
             TreinoPesadoTheme {
                 Scaffold(bottomBar = {
                     Card(
@@ -70,7 +79,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }) {
                     it.calculateBottomPadding()
-                    HomeScreen()
+                    NavGraphMenu(navController, viewModel)
                 }
             }
         }
